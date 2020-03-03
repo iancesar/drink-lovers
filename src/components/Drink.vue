@@ -25,17 +25,22 @@
       </v-col>
     </v-row>
 
-    <v-dialog v-model="dialog" transition="dialog-bottom-transition">
+    <v-dialog v-model="dialog" transition="dialog-bottom-transition" min-width="100">
       <v-card>
         <v-card-title class="display-2 font-weight-light">Cuba Libre</v-card-title>
         <v-card-text>
-          <v-chip v-for="(item, i) in items" :key="i" class="ma-2" color="green" text-color="white">
-            <v-avatar left class="green darken-4">{{item.measure}}</v-avatar>
-            {{item.ingredient}}
-          </v-chip>
+          <v-chip
+            v-for="(item, i) in cocktail.items"
+            :key="i"
+            class="ma-1"
+            outlined
+            color="deep-purple accent-4"
+            text-color="deep-purple accent-4"
+            label
+          >{{item.measure}} of {{item.ingredient}}</v-chip>
         </v-card-text>
         <v-card-actions>
-          <v-btn color="deep-purple lighten-2" text >Reserve</v-btn>
+          <v-btn color="deep-purple lighten-2" text>Reserve</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -44,17 +49,20 @@
 
 <script>
 export default {
-  name: "HelloWorld",
+  name: "Drink",
 
   data: () => ({
     dialog: false,
-    item: 1,
-    items: [
-      { ingredient: "Tequila", measure: "4" },
-      { ingredient: "Tequila", measure: "4" },
-      { ingredient: "Tequila", measure: "4" },
-      { ingredient: "Tequila", measure: "4" }
-    ]
+    cocktail: {
+      instructions: 'Pour all ingredients into a cocktail shaker, mix and serve over ice into a chilled glass.',
+      glass: 'Cocktail',
+      items: [
+        { ingredient: "Gin", measure: "1 3/4 shot" },
+        { ingredient: "Grand Marnier", measure: "1 Shot" },
+        { ingredient: "Lemon Juice", measure: "1/4 Shot" },
+        { ingredient: "Grenadine", measure: "1/8 Shot" }
+      ]
+    }
   }),
   methods: {
     ola() {
@@ -64,11 +72,11 @@ export default {
   mounted() {
     var convert = require("convert-units");
 
-    let a =convert(1.5)
+    let a = convert(1.5)
       .from("fl-oz")
       .to("ml");
 
-      console.log(Math.floor(a))
+    console.log(Math.floor(a));
   }
 };
 </script>
