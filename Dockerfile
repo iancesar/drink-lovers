@@ -1,7 +1,5 @@
-FROM iancesarvidinha/drink-lovers:latest
+FROM iancesarvidinha/drink-lovers:latest AS drink-lovers
 
-MAINTAINER iancesarvidinharego@gmail.com
+LABEL key="iancesarvidinharego@gmail.com"
 
-RUN ["chmod", "774", "/build/build.sh"]
-
-RUN /build/build.sh
+RUN sh /build/build.sh

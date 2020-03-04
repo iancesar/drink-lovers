@@ -1,21 +1,31 @@
-# drinks
+# Drink Lovers - Em Desenvolvimento
 
-https://www.thecocktaildb.com/api.php?ref=apilist.fun
+O objetivo desse projeto é criar uma PWA para consultar receitas de drinks, a consulta é feita através da API [Coktail DB](https://www.thecocktaildb.com/api.php?ref=apilist.fun) de drinks utilizando VueJS e Vuetify
 
 ## Project setup
+
 ```
 yarn install
 ```
 
 ### Compiles and hot-reloads for development
+
 ```
 yarn serve
 ```
 
 ### Compiles and minifies for production
+
 ```
 yarn build
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+## Docker
+O preview da aplicação pode ser feita via Dockerfile
+
+```
+docker build -t drink-lovers .
+
+docker run -d -p PORT:80 --name drink-lovers drink-lovers:latest
+
+```
