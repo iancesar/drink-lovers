@@ -1,9 +1,14 @@
-FROM node:current AS node
+FROM node:current
 
-RUN mkdir build \
-&& cd build/ \
+
+RUN mkdir build && cd build/ \
 && git clone https://github.com/iancesar/drink-lovers.git \
 && cd drink-lovers/ \
-&& yarn install && yarn run build
+&& yarn install && yarn run build \
+&& chmod -R +rX .; \
+	chmod 777 /build
 
-VOLUME [ "drink-lovers" ]
+# WORKDIR /
+
+VOLUME [ "build" ]
+#COPY build/drink-lovers/dist build

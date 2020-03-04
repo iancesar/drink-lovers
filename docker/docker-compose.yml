@@ -1,10 +1,13 @@
-version: '3.1'
+version: '3.3'
 
 services:
-
-  db:
+  tomcat:
+    container_name: Tomcat
+    #image: iancesarvidinha/drink-lovers
     build: 
         context: ./node
         dockerfile: Dockerfile
+    restart: always
     volumes: 
-        - ./:/build/drink-lovers
+      #  - ./tom:/build
+        - ./dist:/build

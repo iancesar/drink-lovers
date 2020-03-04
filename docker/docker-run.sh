@@ -1,1 +1,1 @@
-docker run -it -v drink-lovers:/build testenode:latest --name lovers /bin/bash
+docker run -d -v drink-lovers:/build --name drink testenode:latest
