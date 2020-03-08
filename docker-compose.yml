@@ -1,17 +1,28 @@
 version: '3.3'
 
 services:
-  frontend:
-    container_name: drink-lovers-frontend
+  node:
+    container_name: drink-lovers-node
     image: node:latest
-    restart: always
+    # restart: always
     working_dir: "/home/node/app"
-    ports: 
-        - 8081:8080
+    # ports: 
+    #     - 8081:8080
     volumes: 
         - ./:/home/node/app
     command: "npm install yarn"
     command: "yarn global add @vue/cli"
     command: "yarn install"
-    command: "yarn serve"
+    command: "yarn run build"
     # command: "ping 192.168.73.3"
+  frontend:
+    container_name: drink-lovers-frontend
+    restart: always
+    image: nginx
+    working_dir: "/usr/share/nginx/html"
+    ports: 
+      - 8081:80
+    volumes: 
+      - ./dist:/usr/share/nginx/html
+    depends_on: 
+      - node
