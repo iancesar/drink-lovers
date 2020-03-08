@@ -21,11 +21,6 @@ yarn build
 ```
 
 ## Docker
-O preview da aplicação pode ser feita via Dockerfile
+O preview da aplicação pode ser feita via docker compose
 
-```
-docker build -t drink-lovers .
-
-docker run -d -p PORT:80 --name drink-lovers drink-lovers:latest
-
-```
+    docker-compose -f "docker-compose.yml" up -d --build

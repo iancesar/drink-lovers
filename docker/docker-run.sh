@@ -1,1 +1,0 @@
-docker run -d -v drink-lovers:/build --name drink testenode:latest
