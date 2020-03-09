@@ -1,11 +1,10 @@
 <template>
   <v-container style="margin-top:60px">
+    <v-btn @click="teste()">Teste</v-btn>
     <v-row>
       <v-col xs="6" sm="4" md="3" lg="2" v-for="cocktail in cocktails" :key="cocktail.id">
         <v-card>
-          <v-img
-            :src="cocktail.img"
-          />
+          <v-img :src="cocktail.img" />
 
           <v-card-text>
             <div
@@ -97,18 +96,18 @@ export default {
     ]
   }),
   methods: {
-    ola() {
-      console.log("hi");
+    teste() {
+      this.$axios
+        .get(
+          "https://www.thecocktaildb.com/api/json/v1/1/search.php?s=margarita"
+        )
+        .then(result => {
+          console.log(result.data);
+        });
     }
   },
   mounted() {
-    var convert = require("convert-units");
-
-    let a = convert(1.5)
-      .from("fl-oz")
-      .to("ml");
-
-    console.log(Math.floor(a));
+    console.log('oi', this.$route.params.search);
   }
 };
 </script>

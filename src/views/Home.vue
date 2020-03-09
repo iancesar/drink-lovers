@@ -1,15 +1,18 @@
 <template>
-  <Drink />
+  <div style="margin-top:60px">
+    <!-- <v-container style="margin-top:60px"> -->
+    <TopDrinks />
+    <DrinksOfWeek />
+  </div>
+  <!-- </v-container> -->
 </template>
 
 <script>
-// @ is an alias to /src
-import Drink from "@/components/Drink.vue";
+import TopDrinks from "@/components/TopDrinks.vue";
+import DrinksOfWeek from "@/components/DrinksOfWeek.vue";
 
 export default {
   name: "Home",
-  components: {
-    Drink
-  }
+  components: { TopDrinks, DrinksOfWeek }
 };
 </script>
