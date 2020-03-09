@@ -1,5 +1,5 @@
 <template>
-  <div style="margin-top:60px">
+  <div>
     <!-- <v-container style="margin-top:60px"> -->
     <TopDrinks />
     <DrinksOfWeek />

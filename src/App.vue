@@ -1,8 +1,8 @@
 <template>
   <v-app>
-    <v-app-bar color="grey darken-4" app>
-      <span class="display-2 font-weight-light pink--text">Drinks Web</span>
-    </v-app-bar>
+    <!-- <v-app-bar color="primary" app>
+      <span class="display-2 font-weight-light white--text">Drinks Web</span>
+    </v-app-bar> -->
     <router-view />
   </v-app>
 </template>
