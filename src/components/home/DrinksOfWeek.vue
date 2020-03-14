@@ -2,36 +2,15 @@
   <v-container>
     <v-row>
       <v-col cols="12">
-        <span class="display-2 font-weight-light">
-          Drinks of week
-          <v-icon color="grey" class="display-2">mdi-glass-cocktail</v-icon>
-        </span>
+        <span
+          class="display-1 font-weight-light"
+          style="font-family: Photoshoot !important"
+        >Drinks of week</span>
       </v-col>
     </v-row>
     <v-row>
       <v-col xs="3" sm="4" md="4" lg="2" v-for="cocktail in cocktails" :key="cocktail.id">
-        <v-card raised elevation="15" shaped>
-          <v-img :src="cocktail.img" />
-
-          <v-card-text>
-            <div
-              class="d-flex justify-center text--primary headline font-weight-light"
-            >{{cocktail.name}}</div>
-          </v-card-text>
-          <div class="d-flex justify-center subtitle-1">
-            <v-chip outlined label color="orange accent-4" text-color="orange accent-4">
-              <span>{{cocktail.totalIngredients}} Ingredientes</span>
-            </v-chip>
-          </div>
-          <v-card-actions class="d-flex justify-center mt-2">
-            <v-btn icon @click="cocktail.loved = !cocktail.loved">
-              <v-icon size="30" :color="cocktail.loved ? 'red' : ''">mdi-heart</v-icon>
-            </v-btn>
-            <v-btn icon>
-              <v-icon size="30">mdi-share-variant</v-icon>
-            </v-btn>
-          </v-card-actions>
-        </v-card>
+        <cocktail-card :cocktail="cocktail"></cocktail-card>
       </v-col>
     </v-row>
   </v-container>
@@ -39,6 +18,7 @@
 
 <script>
 import Cocktail from "@/models/Cocktail";
+import CocktailCard from "./CocktailCard";
 
 export default {
   name: "Drink",
@@ -69,13 +49,14 @@ export default {
               }
             }
             cocktail.totalIngredients = totalIgredients;
-            
+
             this.cocktails.push(cocktail);
             max--;
           }
         });
       });
-  }
+  },
+  components: { CocktailCard }
 };
 </script>
 

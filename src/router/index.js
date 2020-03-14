@@ -8,17 +8,20 @@ Vue.use(VueRouter)
 
 const routes = [
   {
+    //Home
     path: '/',
     name: 'Home',
     component: Home
   },
   {
+    //List of drinks
     path: '/drinks/:search',
     name: 'Drinks',
     component: Drinks
   },
   {
-    path: '/drink',
+    //Drink info
+    path: '/drink/:id',
     name: 'Drink',
     component: DrinkInfo
   }

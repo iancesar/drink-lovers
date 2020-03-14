@@ -1,7 +1,7 @@
 class Cocktail {
 
     id;
-    cocktail;
+    name;
     totalIngredients;
     loved;
     img;
