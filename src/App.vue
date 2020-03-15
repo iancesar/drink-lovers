@@ -42,7 +42,10 @@ export default {
 
   data: () => ({
     //
-  })
+  }),
+  mounted() {
+    this.$vuetify.theme.dark = true;
+  }
 };
 </script>
 
@@ -60,5 +63,10 @@ export default {
 @font-face {
   font-family: 'Photoshoot';
   src: url('fonts/Photoshoot.ttf') format('truetype');
+}
+
+.theme--dark.v-application {
+  background: #121212f2 !important;
+  color: #00daff !important;
 }
 </style>

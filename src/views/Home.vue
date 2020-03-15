@@ -1,7 +1,7 @@
 <template>
   <div>
     <TopDrinks />
-    <DrinksOfWeek />
+    <!-- <DrinksOfWeek /> -->
   </div>
 </template>
 

@@ -40,7 +40,7 @@ export default {
             let cocktail = new Cocktail();
             cocktail.id = element.idDrink;
             cocktail.name = element.strDrink;
-            cocktail.img = element.strDrinkThumb + "/preview";
+            cocktail.img = element.strDrinkThumb;
 
             let totalIgredients = 0;
             for (let ingredients = 1; ingredients <= 15; ingredients++) {

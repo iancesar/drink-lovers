@@ -1,7 +1,33 @@
 <template>
   <div>
+    <v-card elevation="15" style="border-radius: 15px;">
+      <v-img :src="cocktail.img" max-height="130" />
+    </v-card>
+    <div
+      style="position: absolute;margin-top: -65px; font-size: 28px"
+      class="white--text text-uppercase font-weight-bold ml-2"
+    >{{cocktail.name}}</div>
+    <div
+      style="position: absolute;margin-top: -30px;"
+      class="white--text font-weight-regular ml-2"
+    >{{cocktail.totalIngredients}} Ingredients</div>
+
+    <div class="d-flex justify-end">
+      <v-btn
+        icon
+        @click="cocktail.loved = !cocktail.loved"
+        style="position: absolute;margin-top: -130px;"
+      >
+        <v-icon size="25" :color="cocktail.loved ? 'red' : 'white'">mdi-heart</v-icon>
+      </v-btn>
+
+      <v-btn icon @click="share = !share" style="position: absolute;margin-top: -95px;">
+        <v-icon size="30" color="white">mdi-share-variant</v-icon>
+      </v-btn>
+    </div>
+
     <!-- :to="to" -->
-    <v-card raised elevation="15" shaped>
+    <!-- <v-card raised elevation="15" shaped>
       <v-img :src="cocktail.img" @click="to" />
 
       <v-card-text @click="to">
@@ -24,7 +50,7 @@
           <v-icon size="30">mdi-share-variant</v-icon>
         </v-btn>
       </v-card-actions>
-    </v-card>
+    </v-card>-->
 
     <v-bottom-sheet v-model="share" inset>
       <v-sheet class="text-center" style="border-radius: 20px 20px 0 0px !important;">

@@ -1,20 +1,19 @@
 <template>
-  <v-container>
-    <v-row>
+  <v-container fluid>
+    <!-- <v-row>
       <v-col cols="12">
         <div
           class="mt-5 display-1 font-weight-light"
           style="font-family: Photoshoot !important"
         >Top Drinks</div>
       </v-col>
-    </v-row>
+    </v-row> -->
 
     <v-row>
-      <v-col xs="3" sm="4" md="4" lg="3" v-for="cocktail in cocktails" :key="cocktail.id">
+      <v-col xs="1" sm="2" md="2" lg="2" v-for="cocktail in cocktails" :key="cocktail.id">
         <cocktail-card :cocktail="cocktail"></cocktail-card>
       </v-col>
     </v-row>
-
   </v-container>
 </template>
 
@@ -32,9 +31,9 @@ export default {
   methods: {},
   mounted() {
     this.$axios
-      .get("https://www.thecocktaildb.com/api/json/v1/1/search.php?f=b")
+      .get("https://www.thecocktaildb.com/api/json/v1/1/search.php?f=a")
       .then(result => {
-        let max = 4;
+        let max = 10;
         result.data.drinks.forEach(element => {
           if (max > 0) {
             let cocktail = new Cocktail();
