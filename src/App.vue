@@ -4,6 +4,7 @@
       <v-row>
         <v-col cols="4" offset="4" class="d-flex justify-center">
           <span
+            @click="home()"
             class="mt-10 white--text"
             style="font-family: Photoshoot !important; font-size: 35px !important;"
           >Cocktails</span>
@@ -16,6 +17,7 @@
         </v-col>
       </v-row>
     </v-toolbar>
+    <!-- <v-divider class="mx-12 mt-8"></v-divider> -->
 
     <router-view />
   </v-app>
@@ -27,9 +29,12 @@ export default {
 
   components: {},
 
-  data: () => ({
-  
-  }),
+  data: () => ({}),
+  methods: {
+    home() {
+      this.$router.push("/");
+    }
+  },
   mounted() {
     this.$vuetify.theme.dark = true;
   }

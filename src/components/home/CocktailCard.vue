@@ -1,6 +1,6 @@
 <template>
   <div>
-    <span class="white--text text-uppercase font-weight-bold cocktail-name ml-1 headline">{{cocktail.name}}</span>
+    <span class="white--text text-uppercase font-weight-bold cocktail-name">{{cocktail.name}}</span>
     <v-card elevation="15" style="border-radius: 4px;">
       <v-img :src="cocktail.img" @click="to()" />
 
@@ -39,6 +39,7 @@ export default {
   data: () => ({ share: false }),
   methods: {
     to() {
+      this.$store.commit("applyCocktail", this.cocktail);
       this.$router.push("/drink/" + this.cocktail.id);
     }
   },

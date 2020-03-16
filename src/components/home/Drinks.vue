@@ -32,7 +32,7 @@
     </v-row>
 
     <div class="d-flex justify-center headline grey-text mt-10">
-      <div v-show="!fouded" class>No cocktails are found :(</div>
+      <div v-show="!fouded" class>No cocktails were found :(</div>
     </div>
 
     <v-row>
@@ -49,59 +49,60 @@ import CocktailCard from "./CocktailCard";
 
 export default {
   name: "Drinks",
-
   data: () => ({
     dialog: false,
-    cocktails: [],
     filter: "",
     loading: false
   }),
   methods: {
     search() {
-      this.cocktails = [];
+      this.doSearch();
+
+      let filter = this.$route.params.search;
+
+      if (filter == undefined || (filter != null && filter != this.filter)) {
+        this.$router.push("/" + this.filter);
+      }
+    },
+    doSearch() {
+      let cocktails = [];
       this.loading = true;
       this.$store.commit("applyFilter", this.filter);
 
       this.$axios
         .get(
-          "https://www.thecocktaildb.com/api/json/v1/1/search.php?f=" +
+          "https://www.thecocktaildb.com/api/json/v1/1/search.php?s=" +
             this.filter
         )
         .then(result => {
           if (result.data.drinks != undefined) {
-            let max = 10;
             result.data.drinks.forEach(element => {
-              if (max > 0) {
-                let cocktail = new Cocktail();
-                cocktail.id = element.idDrink;
-                cocktail.name = element.strDrink;
-                cocktail.img = element.strDrinkThumb;
+              let cocktail = new Cocktail().convert(element);
 
-                let totalIgredients = 0;
-                for (let ingredients = 1; ingredients <= 15; ingredients++) {
-                  if (element["strIngredient" + ingredients] != null) {
-                    totalIgredients++;
-                  }
-                }
-                cocktail.totalIngredients = totalIgredients;
-
-                this.cocktails.push(cocktail);
-                max--;
-              }
+              cocktails.push(cocktail);
+              this.$store.commit("applyCocktails", cocktails);
             });
             this.loading = false;
           } else {
             this.loading = false;
-            return [];
+            this.$store.commit("applyCocktails", []);
           }
         });
     },
     clearFilter() {
       this.$store.commit("applyFilter", "");
+      this.findRandom();
+    },
+    findRandom() {
       this.loading = true;
+      this.$store.commit("applyCocktails", []);
+      this.loading = false;
     }
   },
   computed: {
+    cocktails() {
+      return this.$store.state.cocktails;
+    },
     filteredValue() {
       return this.$store.state.filter;
     },
@@ -112,7 +113,17 @@ export default {
       return this.cocktails.length > 0;
     }
   },
-  mounted() {},
+  mounted() {
+    let cocktails = this.$store.state.cocktails;
+    let filter = this.$route.params.search;
+
+    if (cocktails.length == 0 && filter != null) {
+      this.filter = filter;
+      this.doSearch();
+    } else if (cocktails.length == 0) {
+      this.findRandom();
+    }
+  },
   components: { CocktailCard }
 };
 </script>

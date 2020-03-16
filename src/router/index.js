@@ -13,6 +13,12 @@ const routes = [
     component: Home
   },
   {
+    //Home
+    path: '/:search',
+    name: 'Home Search',
+    component: Home
+  },
+  {
     //Drink info
     path: '/drink/:id',
     name: 'Drink',
