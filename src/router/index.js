@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Drinks from '../views/Drinks.vue'
 import Home from '../views/Home.vue'
 import DrinkInfo from '../views/DrinkInfo.vue'
 
@@ -14,10 +13,10 @@ const routes = [
     component: Home
   },
   {
-    //List of drinks
-    path: '/drinks/:search',
-    name: 'Drinks',
-    component: Drinks
+    //Home
+    path: '/:search',
+    name: 'Home Search',
+    component: Home
   },
   {
     //Drink info
