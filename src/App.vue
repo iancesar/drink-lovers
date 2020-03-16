@@ -1,35 +1,22 @@
 <template>
   <v-app dark>
-    <v-app-bar color="primary">
-      <v-text-field
-        clearable
-        placeholder="Type something"
-        full-width
-        single-line
-        class="mt-4 searchInput"
-        dark
-      ></v-text-field>
+    <v-toolbar max-height="60" color="#121212" flat class="mt-2">
+      <v-row>
+        <v-col cols="4" offset="4" class="d-flex justify-center">
+          <span
+            class="mt-10 white--text"
+            style="font-family: Photoshoot !important; font-size: 35px !important;"
+          >Cocktails</span>
+        </v-col>
 
-      <v-menu bottom left>
-        <template v-slot:activator="{ on }">
-          <v-btn dark icon v-on="on">
-            <v-icon style="font-size:45px">mdi-account-circle</v-icon>
+        <v-col cols="1" offset="3" class="d-flex justify-end mt-8">
+          <v-btn icon>
+            <v-icon color="red">mdi-heart</v-icon>
           </v-btn>
-        </template>
+        </v-col>
+      </v-row>
+    </v-toolbar>
 
-        <v-list dense>
-          <v-list-item to="/drink">
-            <v-list-item-title>Profile</v-list-item-title>
-          </v-list-item>
-          <v-list-item to="/drink">
-            <v-list-item-title>Favorite Drinks</v-list-item-title>
-          </v-list-item>
-          <v-list-item to="/drink">
-            <v-list-item-title>Sign out</v-list-item-title>
-          </v-list-item>
-        </v-list>
-      </v-menu>
-    </v-app-bar>
     <router-view />
   </v-app>
 </template>
@@ -41,7 +28,7 @@ export default {
   components: {},
 
   data: () => ({
-    //
+  
   }),
   mounted() {
     this.$vuetify.theme.dark = true;
@@ -51,7 +38,7 @@ export default {
 
 <style lang="stylus">
 .searchInput {
-  font-size: 30px !important;
+  font-size: 20px !important;
 }
 
 @media screen and (max-width: 400px) {
@@ -63,10 +50,5 @@ export default {
 @font-face {
   font-family: 'Photoshoot';
   src: url('fonts/Photoshoot.ttf') format('truetype');
-}
-
-.theme--dark.v-application {
-  background: #121212f2 !important;
-  color: #00daff !important;
 }
 </style>

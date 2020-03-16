@@ -1,16 +1,14 @@
 <template>
-  <div>
-    <TopDrinks />
-    <!-- <DrinksOfWeek /> -->
-  </div>
+  <v-container>
+    <Drinks />
+  </v-container>
 </template>
 
 <script>
-import TopDrinks from "@/components/home/TopDrinks.vue";
-import DrinksOfWeek from "@/components/home/DrinksOfWeek.vue";
+import Drinks from "@/components/home/Drinks.vue";
 
 export default {
   name: "Home",
-  components: { TopDrinks, DrinksOfWeek }
+  components: { Drinks }
 };
 </script>

@@ -1,15 +1,35 @@
 <template>
   <v-container>
-    <v-row>
-      <v-col cols="12">
-        <span
-          class="display-1 font-weight-light"
-          style="font-family: Photoshoot !important"
-        >Drinks of week</span>
+    <v-row style="flex-grow: 0 !important;" no-gutters>
+      <v-col cols="12" class="d-flex justify-center mt-5">
+        <v-text-field
+          placeholder="Search"
+          solo
+          style="border-radius:5px"
+          append-icon="mdi-magnify"
+          color="white"
+          v-model="filter"
+          @keydown.enter="search()"
+          clearable
+        ></v-text-field>
+      </v-col>
+      <v-col cols="12" class="d-flex justify-start">
+        <v-row no-gutters>
+          <v-col cols="12" class="mb-3 d-flex justify-start">
+            <v-chip
+              color="pink"
+              label
+              text-color="white"
+              close
+              class="mr-1"
+            >{{filter}}</v-chip>
+          </v-col>
+        </v-row>
       </v-col>
     </v-row>
+
     <v-row>
-      <v-col xs="3" sm="4" md="4" lg="2" v-for="cocktail in cocktails" :key="cocktail.id">
+      <v-col cols="6" sm="3" lg="3" v-for="cocktail in cocktails" :key="cocktail.id">
         <cocktail-card :cocktail="cocktail"></cocktail-card>
       </v-col>
     </v-row>
@@ -21,20 +41,23 @@ import Cocktail from "@/models/Cocktail";
 import CocktailCard from "./CocktailCard";
 
 export default {
-  name: "Drink",
+  name: "Drinks",
 
   data: () => ({
     dialog: false,
-    cocktails: []
+    cocktails: [],
+    filter: "Marguerita"
   }),
-  methods: {},
+  methods: {
+    search(){
+      console.log(this.filter);
+    }
+  },
   mounted() {
     this.$axios
       .get("https://www.thecocktaildb.com/api/json/v1/1/search.php?f=a")
       .then(result => {
-        // console.log(result.data.drinks);
-
-        let max = 6;
+        let max = 10;
         result.data.drinks.forEach(element => {
           if (max > 0) {
             let cocktail = new Cocktail();
