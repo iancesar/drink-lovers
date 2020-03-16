@@ -4,6 +4,7 @@ import './registerServiceWorker'
 import router from './router'
 import vuetify from './plugins/vuetify';
 import axios from 'axios'
+import store from './store/store'
 // import SocialSharing from 'vue-social-sharing'
 var SocialSharing = require('vue-social-sharing');
 
@@ -14,6 +15,7 @@ new Vue({
   router,
   vuetify,
   SocialSharing,
+  store,
   // SocialSharing,
   render: h => h(App)
 }).$mount('#app')

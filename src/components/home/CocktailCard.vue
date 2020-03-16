@@ -1,20 +1,17 @@
 <template>
   <div>
-    <v-card elevation="15" style="border-radius: 15px;">
-      <v-img :src="cocktail.img" @click="to()"/>
-      <div class="white--text text-uppercase font-weight-bold ml-2 cocktail-name">{{cocktail.name}}</div>
-      <div
-        class="white--text font-weight-regular ml-2 cocktail-ingredients"
-      >{{cocktail.totalIngredients}} Ingredients</div>
+    <span class="white--text text-uppercase font-weight-bold cocktail-name ml-1 headline">{{cocktail.name}}</span>
+    <v-card elevation="15" style="border-radius: 4px;">
+      <v-img :src="cocktail.img" @click="to()" />
 
-      <v-card-actions>
+      <v-card-actions style="max-height:40px">
         <v-row no-gutters>
           <v-col cols="1" class="d-flex justify-start">
             <v-btn icon @click="cocktail.loved = !cocktail.loved">
-              <v-icon size="25" :color="cocktail.loved ? 'red' : 'white'">mdi-heart</v-icon>
+              <v-icon size="20" :color="cocktail.loved ? 'red' : 'white'">mdi-heart</v-icon>
             </v-btn>
             <v-btn icon @click="share = !share">
-              <v-icon size="25" color="white">mdi-share-variant</v-icon>
+              <v-icon size="20" color="white">mdi-share-variant</v-icon>
             </v-btn>
           </v-col>
         </v-row>
@@ -51,13 +48,5 @@ export default {
 
 <style lang="stylus">
 .cocktail-name {
-  position: absolute;
-  margin-top: -65px;
-  font-size: 28px;
-}
-
-.cocktail-ingredients {
-  position: absolute;
-  margin-top: -30px;
 }
 </style>
