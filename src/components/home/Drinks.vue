@@ -31,8 +31,8 @@
       </v-col>
     </v-row>
 
-    <div class="d-flex justify-center headline grey-text mt-10">
-      <div v-show="!fouded" class>No cocktails were found :(</div>
+    <div class="d-flex justify-center headline grey-text">
+      <div class="mt-2" v-show="!fouded">No cocktails were found :(</div>
     </div>
 
     <v-row>
