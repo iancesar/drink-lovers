@@ -90,13 +90,12 @@ export default {
         });
     },
     clearFilter() {
+      this.filter = ''
       this.$store.commit("applyFilter", "");
       this.findRandom();
     },
     findRandom() {
-      this.loading = true;
-      this.$store.commit("applyCocktails", []);
-      this.loading = false;
+      this.doSearch();
     }
   },
   computed: {

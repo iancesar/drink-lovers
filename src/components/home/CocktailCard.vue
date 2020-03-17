@@ -6,7 +6,7 @@
 
       <v-card-actions style="max-height:40px">
         <v-row no-gutters>
-          <v-col cols="1" class="d-flex justify-start">
+          <v-col cols="1" class="d-flex justify-start ">
             <v-btn icon @click="cocktail.loved = !cocktail.loved">
               <v-icon size="20" :color="cocktail.loved ? 'red' : 'white'">mdi-heart</v-icon>
             </v-btn>
