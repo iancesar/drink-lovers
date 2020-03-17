@@ -49,7 +49,7 @@ export default {
   data: () => ({}),
   computed: {
     url() {
-      return "http://localhost:8080/#/drinks/" + this.cocktail.id;
+      return "https://cockteils.herokuapp.com/#/drinks/" + this.cocktail.id;
     },
     description() {
       return "How to make the " + this.cocktail.name + " cocktail";
