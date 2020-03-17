@@ -1,6 +1,6 @@
 <template>
-  <v-container style="margin-top:60px">
-    <v-row no-gutters>
+  <v-container>
+    <v-row no-gutters class="mt-10">
       <v-col sm="12" md="6" class="d-flex align-stretch">
         <v-img :src="cocktail.img" />
       </v-col>

@@ -13,7 +13,7 @@
         <v-col cols="1" offset="3" class="d-flex justify-end mt-8">
           <!-- <v-btn icon>
             <v-icon size="30" color="white">mdi-heart</v-icon>
-          </v-btn> -->
+          </v-btn>-->
         </v-col>
       </v-row>
     </v-toolbar>
