@@ -4,13 +4,13 @@
       <v-row justify="center" no-gutters>
         <v-col class="d-flex justify-center" cols="12">
           <div>
-            <span style="font-family: Photoshoot !important; font-size: 45px">Cocktails</span>
+            <span style="font-family: Photoshoot !important; font-size: 50px">Cocktails</span>
           </div>
         </v-col>
 
-        <v-form>
-          <v-col class="d-flex justify-center" cols="12" style="padding: 0px 12px 0px 12px;">
-            <v-text-field label="E-mail" color="pink"></v-text-field>
+        <v-form ref="form" v-model="valid">
+          <v-col class="d-flex justify-center" cols="12" style="padding: 12px 12px 0px 12px;">
+            <v-text-field label="E-mail" color="pink" required :rules="rules"></v-text-field>
           </v-col>
 
           <v-col class="d-flex justify-center" cols="12" style="padding: 0px 12px 0px 12px;">
@@ -18,19 +18,27 @@
               color="pink"
               :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
               :type="show1 ? 'text' : 'password'"
-              label="Passwrod"
+              label="Password"
               @click:append="show1 = !show1"
+              required
+              :rules="rules"
             ></v-text-field>
           </v-col>
 
           <v-col class="d-flex justify-center" cols="12" style="padding: 10px 12px 0px 12px;">
-            <v-btn color="pink" style="width: 100%">Go</v-btn>
+            <v-btn color="pink" style="width: 100%" @click="login()">Go</v-btn>
           </v-col>
-          <v-col class="d-flex justify-center" cols="12" style="padding: 7px 12px 0px 12px;">
-            <v-btn fab color="#4267B2" small>
-              <i class="fab fa-facebook-f"></i>
+
+          <v-col class="d-flex justify-center" cols="12" style="padding: 12px 12px 0px 12px;">or</v-col>
+
+          <v-col class="d-flex justify-center" cols="12" style="padding: 12px 12px 0px 12px;">
+            <v-btn fab>
+              <v-icon>fas fa-user-plus</v-icon>
             </v-btn>
-            <v-btn color="#DB4437" fab small class="ml-3">
+            <v-btn fab color="#4267B2" class="ml-8">
+              <v-icon>fab fa-facebook-f</v-icon>
+            </v-btn>
+            <v-btn color="#DB4437" fab class="ml-8">
               <v-icon>mdi-google</v-icon>
             </v-btn>
           </v-col>
@@ -44,8 +52,15 @@ export default {
   name: "Login",
   data() {
     return {
-      show1: false
+      valid: true,
+      show1: false,
+      rules: [v => !!v || "This Field is required"]
     };
+  },
+  methods: {
+    login() {
+      this.$refs.form.validate();
+    }
   }
 };
 </script>
