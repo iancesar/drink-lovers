@@ -7,7 +7,8 @@ export default new Vuex.Store({
     state: {
         filter: '',
         cocktails: [],
-        cocktail: {}
+        cocktail: {},
+        sideBar: false
     },
     mutations: {
         applyFilter(state, payload) {
@@ -18,6 +19,9 @@ export default new Vuex.Store({
         },
         applyCocktail(state, payload) {
             state.cocktail = payload;
+        },
+        changeSideBar(state, payload) {
+            state.sideBar = payload;
         }
     }
 });
