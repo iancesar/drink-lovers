@@ -2,11 +2,13 @@
   <div>
     <span class="white--text text-uppercase font-weight-bold cocktail-name">{{cocktail.name}}</span>
     <v-card elevation="15" style="border-radius: 4px;">
-      <v-img :src="cocktail.img" @click="to()" />
+      <v-img :src="cocktail.img" @click="to()">
+        <!-- <v-card-title>{{cocktail.name}}</v-card-title> -->
+      </v-img>
 
       <v-card-actions style="max-height:40px">
         <v-row no-gutters>
-          <v-col cols="1" class="d-flex justify-start ">
+          <v-col cols="1" class="d-flex justify-start">
             <v-btn icon @click="cocktail.loved = !cocktail.loved">
               <v-icon size="20" :color="cocktail.loved ? 'red' : 'white'">mdi-heart</v-icon>
             </v-btn>
