@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import App from './App.vue'
+import Notifications from 'vue-notification'
 import './registerServiceWorker'
 import router from './router'
 import vuetify from './plugins/vuetify';
@@ -10,12 +11,12 @@ var SocialSharing = require('vue-social-sharing');
 
 Vue.config.productionTip = false;
 Vue.prototype.$axios = axios;
+Vue.use(Notifications)
 
 new Vue({
   router,
   vuetify,
   SocialSharing,
   store,
-  // SocialSharing,
   render: h => h(App)
 }).$mount('#app')

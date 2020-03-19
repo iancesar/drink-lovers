@@ -1,5 +1,6 @@
 <template>
   <v-app dark>
+    <notifications group="foo" position="top center" classes="my-style" />
     <v-container fill-height fluid>
       <v-row justify="center" no-gutters>
         <v-col class="d-flex justify-center" cols="12">
@@ -10,23 +11,31 @@
 
         <v-form ref="form" v-model="valid">
           <v-col class="d-flex justify-center" cols="12" style="padding: 12px 12px 0px 12px;">
-            <v-text-field label="E-mail" color="pink" required :rules="rules"></v-text-field>
+            <v-text-field
+              label="E-mail"
+              type="email"
+              v-model="email"
+              color="pink"
+              required
+              :rules="rules.email"
+            ></v-text-field>
           </v-col>
 
           <v-col class="d-flex justify-center" cols="12" style="padding: 0px 12px 0px 12px;">
             <v-text-field
-              color="pink"
-              :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
-              :type="show1 ? 'text' : 'password'"
               label="Password"
-              @click:append="show1 = !show1"
+              v-model="password"
               required
-              :rules="rules"
+              color="pink"
+              :rules="rules.password"
+              :type="show1 ? 'text' : 'password'"
+              :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+              @click:append="show1 = !show1"
             ></v-text-field>
           </v-col>
 
           <v-col class="d-flex justify-center" cols="12" style="padding: 10px 12px 0px 12px;">
-            <v-btn color="pink" style="width: 100%" @click="login()">Go</v-btn>
+            <v-btn color="pink" style="width: 100%" @click="login()">Sign in</v-btn>
           </v-col>
 
           <v-col class="d-flex justify-center" cols="12" style="padding: 12px 12px 0px 12px;">or</v-col>
@@ -54,12 +63,38 @@ export default {
     return {
       valid: true,
       show1: false,
-      rules: [v => !!v || "This Field is required"]
+      email: "iancesarvidin2harego@gmail.com",
+      password: "123456",
+      rules: {
+        email: [v => !!v || "Email is required"],
+        password: [
+          v => !!v || "Password is required",
+          v => v.length >= 6 || "Password must be more than 6 characters"
+        ]
+      }
     };
   },
   methods: {
     login() {
-      this.$refs.form.validate();
+      let isValid = this.$refs.form.validate();
+      if (isValid) {
+        let form = {
+          email: this.email,
+          password: this.password
+        };
+
+        this.$axios
+          .post("http://localhost:5000/login/signIn", form)
+          .then(data => {
+            console.log(data);
+          })
+          .catch(err => {
+            this.$notify({
+              group: "foo",
+              text: err.response.data.message
+            });
+          });
+      }
     }
   }
 };
@@ -69,5 +104,16 @@ export default {
 @font-face {
   font-family: 'Photoshoot';
   src: url('../fonts/Photoshoot.ttf') format('truetype');
+}
+
+.my-style {
+  padding: 10px;
+  margin: 10px 0 10px 5px;
+  font-size: 14px;
+  color: #ffffff;
+  background: #44A4FC;
+  border-left: 5px solid #ffffff;
+  background: #272727;
+  border-left-color: #121212;
 }
 </style>
