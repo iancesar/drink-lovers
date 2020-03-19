@@ -49,7 +49,7 @@
             <v-btn fab :loading="loading.siginUp" @click="signUp()" small>
               <v-icon size="19px">fas fa-user-plus</v-icon>
             </v-btn>
-            <v-btn fab color="#4267B2" class="ml-6" small>
+            <v-btn fab color="#4267B2" class="ml-6" small @click="facebook()">
               <v-icon>fab fa-facebook-f</v-icon>
             </v-btn>
             <v-btn color="#DB4437" fab class="ml-6" small>
@@ -93,6 +93,8 @@
   </v-app>
 </template>
 <script>
+import firebase from "firebase";
+
 export default {
   name: "Login",
   data() {
@@ -190,7 +192,7 @@ export default {
                 "Instructions to a new password was sent to " +
                 this.emailToReset
             });
-
+            this.resetPanel = false;
             this.loading.reseting = false;
           })
           .catch(err => {
@@ -202,8 +204,37 @@ export default {
             this.loading.reseting = false;
           });
       }
+    },
+    facebook() {
+      let firebaseConfig = {
+        apiKey: process.env.VUE_APP_FIREBASE_API_KEY,
+        authDomain: process.env.VUE_APP_FIREBASE_AUTH_DOMAIN,
+        databaseURL: process.env.VUE_APP_FIREBASE_DATA_BASE_URL,
+        projectId: process.env.VUE_APP_FIREBASE_PROJECT_ID,
+        storageBucket: process.env.VUE_APP_FIREBASE_STORAGE_BUCKET,
+        messagingSenderId: process.env.VUE_APP_FIREBASE_MESSAGING_SENDER_ID,
+        appId: process.env.VUE_APP_FIREBASE_APP_ID,
+        measurementId: process.env.VUE_APP_MEASUREMENT_ID
+      };
+
+      console.log(firebaseConfig);
+
+      firebase.initializeApp(firebaseConfig);
+
+      let provider = new firebase.auth.FacebookAuthProvider();
+
+      firebase
+        .auth()
+        .signInWithPopup(provider)
+        .then(result => {
+          console.log(result);
+        })
+        .catch(err => {
+          console.log(err);
+        });
     }
-  }
+  },
+  mounted() {}
 };
 </script>
 

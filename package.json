@@ -12,6 +12,7 @@
     "convert-units": "^2.3.4",
     "core-js": "^3.6.4",
     "express": "^4.17.1",
+    "firebase": "^7.11.0",
     "register-service-worker": "^1.6.2",
     "static-server": "^2.2.1",
     "vue": "^2.6.11",
