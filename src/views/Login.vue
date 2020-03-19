@@ -1,6 +1,6 @@
 <template>
   <v-app dark>
-    <notifications group="foo" position="top center" classes="my-style" />
+    <notifications group="foo" position="bottom center" />
     <v-container fill-height fluid>
       <v-row justify="center" no-gutters>
         <v-col class="d-flex justify-center" cols="12">
@@ -91,6 +91,7 @@ export default {
           .catch(err => {
             this.$notify({
               group: "foo",
+               type: 'warn',
               text: err.response.data.message
             });
           });
@@ -104,16 +105,5 @@ export default {
 @font-face {
   font-family: 'Photoshoot';
   src: url('../fonts/Photoshoot.ttf') format('truetype');
-}
-
-.my-style {
-  padding: 10px;
-  margin: 10px 0 10px 5px;
-  font-size: 14px;
-  color: #ffffff;
-  background: #44A4FC;
-  border-left: 5px solid #ffffff;
-  background: #272727;
-  border-left-color: #121212;
 }
 </style>
