@@ -1,6 +1,6 @@
 <template>
   <v-app dark>
-    <notifications group="foo" position="bottom center" />
+    <notifications group="foo" position="top center" class="mt-7" />
     <v-container fill-height fluid>
       <v-row justify="center" no-gutters>
         <v-col class="d-flex justify-center" cols="12">
@@ -35,23 +35,59 @@
           </v-col>
 
           <v-col class="d-flex justify-center" cols="12" style="padding: 10px 12px 0px 12px;">
-            <v-btn color="pink" style="width: 100%" @click="login()">Sign in</v-btn>
+            <v-btn
+              color="pink"
+              style="width: 100%"
+              @click="signIn()"
+              :loading="loading.signIn"
+            >Sign in</v-btn>
           </v-col>
 
           <v-col class="d-flex justify-center" cols="12" style="padding: 12px 12px 0px 12px;">or</v-col>
 
           <v-col class="d-flex justify-center" cols="12" style="padding: 12px 12px 0px 12px;">
-            <v-btn fab>
-              <v-icon>fas fa-user-plus</v-icon>
+            <v-btn fab :loading="loading.siginUp" @click="signUp()" small>
+              <v-icon size="19px">fas fa-user-plus</v-icon>
             </v-btn>
-            <v-btn fab color="#4267B2" class="ml-8">
+            <v-btn fab color="#4267B2" class="ml-6" small>
               <v-icon>fab fa-facebook-f</v-icon>
             </v-btn>
-            <v-btn color="#DB4437" fab class="ml-8">
+            <v-btn color="#DB4437" fab class="ml-6" small>
               <v-icon>mdi-google</v-icon>
             </v-btn>
           </v-col>
         </v-form>
+
+        <v-col class="d-flex justify-center mt-8" cols="12">
+          <v-bottom-sheet v-model="resetPanel" inset>
+            <template v-slot:activator="{ on }">
+              <v-btn text small v-on="on">Reset Password</v-btn>
+            </template>
+            <v-sheet>
+              <v-form ref="resetPasswordForm">
+                <v-row class="d-flex justify-center">
+                  <v-col cols="10">
+                    <v-text-field
+                      label="Email"
+                      v-model="emailToReset"
+                      color="pink"
+                      required
+                      :rules="rules.email"
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="12" class="text-center">
+                    <v-btn
+                      text
+                      color="pink"
+                      :loading="loading.reseting"
+                      @click="resetPassword()"
+                    >Reset Password</v-btn>
+                  </v-col>
+                </v-row>
+              </v-form>
+            </v-sheet>
+          </v-bottom-sheet>
+        </v-col>
       </v-row>
     </v-container>
   </v-app>
@@ -63,8 +99,15 @@ export default {
     return {
       valid: true,
       show1: false,
-      email: "iancesarvidin2harego@gmail.com",
-      password: "123456",
+      loading: {
+        signIn: false,
+        siginUp: false,
+        reseting: false
+      },
+      resetPanel: false,
+      email: "iancesarvidinharego@gmail.com",
+      emailToReset: "",
+      password: "",
       rules: {
         email: [v => !!v || "Email is required"],
         password: [
@@ -75,25 +118,88 @@ export default {
     };
   },
   methods: {
-    login() {
+    signIn() {
       let isValid = this.$refs.form.validate();
       if (isValid) {
+        this.loading.signIn = true;
+
         let form = {
           email: this.email,
           password: this.password
         };
 
         this.$axios
-          .post("https://ian-cocktail-api.herokuapp.com/login/signIn", form)
+          .post("/login/signIn", form)
           .then(data => {
-            console.log(data);
+            sessionStorage.token = data.data.token;
+            this.loading.signIn = false;
+            this.$router.push("/");
           })
           .catch(err => {
             this.$notify({
               group: "foo",
-               type: 'warn',
+              type: "warn",
               text: err.response.data.message
             });
+            this.loading.signIn = false;
+          });
+      }
+    },
+    signUp() {
+      let isValid = this.$refs.form.validate();
+      if (isValid) {
+        this.loading.siginUp = true;
+
+        let form = {
+          email: this.email,
+          password: this.password
+        };
+
+        this.$axios
+          .post("/login/signUp", form)
+          .then(data => {
+            sessionStorage.token = data.data.token;
+            this.loading.siginUp = false;
+            this.$router.push("/");
+          })
+          .catch(err => {
+            this.$notify({
+              group: "foo",
+              type: "warn",
+              text: err.response.data.message
+            });
+            this.loading.siginUp = false;
+          });
+      }
+    },
+    resetPassword() {
+      let isValid = this.$refs.resetPasswordForm.validate();
+      if (isValid) {
+        this.loading.reseting = true;
+
+        let form = {
+          email: this.emailToReset
+        };
+
+        this.$axios
+          .post("/login/resetPassword", form)
+          .then(data => {
+            this.$notify({
+              group: "foo",
+              text:
+                "Instructions to a new password was sent to " +
+                this.emailToReset
+            });
+
+            this.loading.reseting = false;
+          })
+          .catch(err => {
+            this.$notify({
+              group: "foo",
+              type: "warn",
+              text: err.response.data.message
+            });
+            this.loading.reseting = false;
           });
       }
     }
