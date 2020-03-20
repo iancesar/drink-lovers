@@ -30,7 +30,7 @@
           </v-card-text>
 
           <v-card-actions class="d-flex justify-center align-end">
-            <v-btn icon @click="cocktail.loved = !cocktail.loved">
+            <v-btn icon @click="loveIt(cocktail)">
               <v-icon size="26" :color="cocktail.loved ? 'red' : 'white'">mdi-heart</v-icon>
             </v-btn>
             <v-btn icon @click="share = !share">
@@ -50,19 +50,30 @@
         <v-btn class="mt-6" text color="primary" @click="share = !share">Close</v-btn>
       </v-sheet>
     </v-bottom-sheet>
+
+    <LoginBottomSheet :sheet="sheet"></LoginBottomSheet>
   </v-container>
 </template>
 
 <script>
 import Cocktail from "@/models/Cocktail";
 import Share from "@/components/Share";
+import LoginBottomSheet from "@/components/LoginBottomSheet";
 
 export default {
   name: "DrinkInfo",
-  data: () => ({ share: false }),
+  data: () => ({ share: false, sheet: false }),
   computed: {
     cocktail() {
       return this.$store.state.cocktail;
+    }
+  },
+  methods: {
+    loveIt(cocktail) {
+      console.log('oi');
+      
+      cocktail.loved = true;
+      this.sheet = true
     }
   },
   mounted() {
@@ -79,7 +90,7 @@ export default {
         });
     }
   },
-  components: { Share }
+  components: { Share, LoginBottomSheet }
 };
 </script>
 

@@ -1,6 +1,8 @@
 <template>
   <v-app dark>
     <v-container>
+      <notifications group="message" position="top center" class="mt-7" />
+
       <v-app-bar max-height="25" color="#121212" flat class="mt-2">
         <v-app-bar-nav-icon @click="drawer = true" class="mt-2"></v-app-bar-nav-icon>
         <v-row>
@@ -47,7 +49,6 @@
             <v-list-item-title>Sign out</v-list-item-title>
           </v-list-item>
           <v-list-item>
-
             <v-list-item-icon>
               <v-icon color="pink">mdi-login-variant</v-icon>
             </v-list-item-icon>
@@ -73,7 +74,6 @@ export default {
 </script>
 
 <style lang="stylus">
-
 .drawer {
   background-color: #212121 !important;
 }

@@ -4,7 +4,7 @@ import "firebase/auth";
 class FirebaseService {
 
 
-    async getCurrentUser() {
+    getCurrentUser() {
         let promise = new Promise((resolve, reject) => {
             const unsubscribe = firebase.auth().onAuthStateChanged(user => {
                 unsubscribe();

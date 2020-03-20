@@ -9,6 +9,7 @@ class Cocktail {
     alcoholic;
     instructions;
     ingredients;
+    sheet = false;
 
     convert(element) {
         let cocktail = new Cocktail();
@@ -41,7 +42,7 @@ class Cocktail {
         }
 
         cocktail.totalIngredients = cocktail.ingredients.length;
-        
+
         return cocktail;
     }
 }
