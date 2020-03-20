@@ -14,11 +14,7 @@ var SocialSharing = require('vue-social-sharing');
 
 Vue.config.productionTip = false;
 
-var axiosInstance = axios.create({
-  baseURL: process.env.NODE_ENV === 'production' ? 'https://ian-cocktail-api.herokuapp.com' : 'http://localhost:5000'
-});
-
-Vue.prototype.$axios = axiosInstance;
+Vue.prototype.$axios = axios;
 
 firebase.initializeApp(firebaseConfig);
 

@@ -49,10 +49,25 @@
             <v-btn fab :loading="loading.siginUp" @click="signUp()" small>
               <v-icon size="19px">fas fa-user-plus</v-icon>
             </v-btn>
-            <v-btn fab color="#4267B2" class="ml-6" small @click="facebook()">
+            <v-btn
+              fab
+              color="#4267B2"
+              class="ml-6"
+              small
+              @click="facebook()"
+              :loading="loading.facebook"
+            >
               <v-icon>fab fa-facebook-f</v-icon>
             </v-btn>
-            <v-btn color="#DB4437" fab class="ml-6" small>
+
+            <v-btn
+              color="#DB4437"
+              fab
+              class="ml-6"
+              small
+              @click="google()"
+              :loading="loading.google"
+            >
               <v-icon>mdi-google</v-icon>
             </v-btn>
           </v-col>
@@ -95,6 +110,10 @@
 <script>
 import firebase from "firebase/app";
 import "firebase/auth";
+import FirebaseService from "@/services/FirebaseService";
+import LoginService from "@/services/LoginService";
+
+let loginService = new LoginService();
 
 export default {
   name: "Login",
@@ -105,10 +124,12 @@ export default {
       loading: {
         signIn: false,
         siginUp: false,
-        reseting: false
+        reseting: false,
+        facebook: false,
+        google: false
       },
       resetPanel: false,
-      email: "iancesarvidinharego@gmail.com",
+      email: "",
       emailToReset: "",
       password: "",
       rules: {
@@ -126,15 +147,9 @@ export default {
       if (isValid) {
         this.loading.signIn = true;
 
-        let form = {
-          email: this.email,
-          password: this.password
-        };
-
-        this.$axios
-          .post("/login/signIn", form)
+        loginService
+          .signIn(this.email, this.password)
           .then(data => {
-            sessionStorage.token = data.data.token;
             this.loading.signIn = false;
             this.$router.push("/");
           })
@@ -142,7 +157,7 @@ export default {
             this.$notify({
               group: "foo",
               type: "warn",
-              text: err.response.data.message
+              text: err.message
             });
             this.loading.signIn = false;
           });
@@ -153,15 +168,9 @@ export default {
       if (isValid) {
         this.loading.siginUp = true;
 
-        let form = {
-          email: this.email,
-          password: this.password
-        };
-
-        this.$axios
-          .post("/login/signUp", form)
+        loginService
+          .signUp(this.email, this.password)
           .then(data => {
-            sessionStorage.token = data.data.token;
             this.loading.siginUp = false;
             this.$router.push("/");
           })
@@ -169,7 +178,7 @@ export default {
             this.$notify({
               group: "foo",
               type: "warn",
-              text: err.response.data.message
+              text: err.message
             });
             this.loading.siginUp = false;
           });
@@ -180,12 +189,8 @@ export default {
       if (isValid) {
         this.loading.reseting = true;
 
-        let form = {
-          email: this.emailToReset
-        };
-
-        this.$axios
-          .post("/login/resetPassword", form)
+        loginService
+          .recovery(this.emailToReset)
           .then(data => {
             this.$notify({
               group: "foo",
@@ -195,34 +200,54 @@ export default {
             });
             this.resetPanel = false;
             this.loading.reseting = false;
+            this.emailToReset = "";
           })
           .catch(err => {
             this.$notify({
               group: "foo",
               type: "warn",
-              text: err.response.data.message
+              text: err.message
             });
             this.loading.reseting = false;
           });
       }
     },
     facebook() {
+      this.loading.facebook = true;
       let provider = new firebase.auth.FacebookAuthProvider();
 
-      firebase
-        .auth()
-        .signInWithPopup(provider)
+      loginService
+        .signInSocial(provider)
         .then(result => {
-          console.log("certo", result);
+          this.loading.facebook = false;
+          this.$router.push("/");
         })
         .catch(err => {
-          console.log(err);
+          this.loading.facebook = false;
           let code = err.code;
           let msg = err.message;
-          if (code === "auth/account-exists-with-different-credential") {
-            msg =
-              "An account already exists with the same email address but different sign-in credentials. Sign in using Facebook or Google";
-          }
+          this.$notify({
+            group: "foo",
+            type: "warn",
+            text: msg,
+            duration: 7000
+          });
+        });
+    },
+    google() {
+      this.loading.google = true;
+      let provider = new firebase.auth.GoogleAuthProvider();
+
+      loginService
+        .signInSocial(provider)
+        .then(result => {
+          this.loading.google = false;
+          this.$router.push("/");
+        })
+        .catch(err => {
+          this.loading.google = false;
+          let code = err.code;
+          let msg = err.message;
           this.$notify({
             group: "foo",
             type: "warn",

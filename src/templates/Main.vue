@@ -42,9 +42,16 @@
 
           <v-list-item>
             <v-list-item-icon>
-              <v-icon color="pink">mdi-logout</v-icon>
+              <v-icon color="pink">mdi-logout-variant</v-icon>
             </v-list-item-icon>
-            <v-list-item-title>Logout</v-list-item-title>
+            <v-list-item-title>Sign out</v-list-item-title>
+          </v-list-item>
+          <v-list-item>
+
+            <v-list-item-icon>
+              <v-icon color="pink">mdi-login-variant</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>Sign in</v-list-item-title>
           </v-list-item>
         </v-list>
       </v-card>
