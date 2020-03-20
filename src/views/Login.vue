@@ -93,7 +93,8 @@
   </v-app>
 </template>
 <script>
-import firebase from "firebase";
+import firebase from "firebase/app";
+import "firebase/auth";
 
 export default {
   name: "Login",
@@ -206,31 +207,28 @@ export default {
       }
     },
     facebook() {
-      let firebaseConfig = {
-        apiKey: process.env.VUE_APP_FIREBASE_API_KEY,
-        authDomain: process.env.VUE_APP_FIREBASE_AUTH_DOMAIN,
-        databaseURL: process.env.VUE_APP_FIREBASE_DATA_BASE_URL,
-        projectId: process.env.VUE_APP_FIREBASE_PROJECT_ID,
-        storageBucket: process.env.VUE_APP_FIREBASE_STORAGE_BUCKET,
-        messagingSenderId: process.env.VUE_APP_FIREBASE_MESSAGING_SENDER_ID,
-        appId: process.env.VUE_APP_FIREBASE_APP_ID,
-        measurementId: process.env.VUE_APP_MEASUREMENT_ID
-      };
-
-      console.log(firebaseConfig);
-
-      firebase.initializeApp(firebaseConfig);
-
       let provider = new firebase.auth.FacebookAuthProvider();
 
       firebase
         .auth()
         .signInWithPopup(provider)
         .then(result => {
-          console.log(result);
+          console.log("certo", result);
         })
         .catch(err => {
           console.log(err);
+          let code = err.code;
+          let msg = err.message;
+          if (code === "auth/account-exists-with-different-credential") {
+            msg =
+              "An account already exists with the same email address but different sign-in credentials. Sign in using Facebook or Google";
+          }
+          this.$notify({
+            group: "foo",
+            type: "warn",
+            text: msg,
+            duration: 7000
+          });
         });
     }
   },

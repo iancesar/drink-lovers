@@ -6,7 +6,10 @@ import router from './router'
 import vuetify from './plugins/vuetify';
 import axios from 'axios'
 import store from './store/store'
-// import SocialSharing from 'vue-social-sharing'
+import firebaseConfig from './firebase-config'
+import firebase from 'firebase/app'
+import 'firebase/auth';
+
 var SocialSharing = require('vue-social-sharing');
 
 Vue.config.productionTip = false;
@@ -16,6 +19,8 @@ var axiosInstance = axios.create({
 });
 
 Vue.prototype.$axios = axiosInstance;
+
+firebase.initializeApp(firebaseConfig);
 
 Vue.use(Notifications)
 
