@@ -17,15 +17,16 @@ const routes = [
   {
     //Home
     path: '/',
-    name: 'Home',
     component: Main,
     children: [
       {
         path: '/',
+        name: 'Home',
         component: Home
       },
       {
         path: '/:search',
+        name: 'Search',
         component: Home
       },
       {

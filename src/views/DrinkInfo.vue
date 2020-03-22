@@ -59,6 +59,7 @@
 import Cocktail from "@/models/Cocktail";
 import Share from "@/components/Share";
 import LoginBottomSheet from "@/components/LoginBottomSheet";
+import check from "underscore";
 
 export default {
   name: "DrinkInfo",
@@ -79,7 +80,7 @@ export default {
   mounted() {
     let cocktail = this.$store.state.cocktail;
     let id = this.$route.params.id;
-    if (this.cocktail.id == undefined && id != null) {
+    if (check.isUndefined(this.cocktail.id) && !check.isNull(id)) {
       this.$axios
         .get("https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=" + id)
         .then(response => {

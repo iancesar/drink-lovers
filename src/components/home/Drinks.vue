@@ -39,6 +39,13 @@
       <v-col cols="6" sm="3" lg="3" v-for="cocktail in cocktails" :key="cocktail.id">
         <cocktail-card :cocktail="cocktail"></cocktail-card>
       </v-col>
+
+      <v-bottom-sheet v-model="cocktailSheet" inset>
+        <v-sheet class="text-center" style="border-radius: 20px 20px 0 0px !important;">
+          <LoginBottomSheet></LoginBottomSheet>
+          <v-btn text color="pink" @click="cancelLogin()">Cancel</v-btn>
+        </v-sheet>
+      </v-bottom-sheet>
     </v-row>
   </v-container>
 </template>
@@ -46,6 +53,8 @@
 <script>
 import Cocktail from "@/models/Cocktail";
 import CocktailCard from "./CocktailCard";
+import LoginBottomSheet from "@/components/LoginBottomSheet";
+import check from "underscore";
 
 export default {
   name: "Drinks",
@@ -60,7 +69,10 @@ export default {
 
       let filter = this.$route.params.search;
 
-      if (filter == undefined || (filter != null && filter != this.filter)) {
+      if (
+        check.isUndefined(filter) ||
+        (!check.isNull(filter) && !check.isEqual(filter, this.filter))
+      ) {
         this.$router.push("/" + this.filter);
       }
     },
@@ -90,12 +102,17 @@ export default {
         });
     },
     clearFilter() {
-      this.filter = ''
+      this.filter = "";
       this.$store.commit("applyFilter", "");
       this.findRandom();
+      this.$router.push("/");
     },
     findRandom() {
       this.doSearch();
+    },
+    cancelLogin() {
+      this.$store.commit("changeCocktailSheet", false);
+      this.$store.commit("applyCocktailToBeLoved", {});
     }
   },
   computed: {
@@ -110,20 +127,28 @@ export default {
     },
     fouded() {
       return this.cocktails.length > 0;
+    },
+    cocktailSheet: {
+      get() {
+        return this.$store.state.cocktailSheet;
+      },
+      set() {
+        this.$store.commit("changeCocktailSheet", false);
+      }
     }
   },
   mounted() {
     let cocktails = this.$store.state.cocktails;
     let filter = this.$route.params.search;
 
-    if (cocktails.length == 0 && filter != null) {
+    if (check.isEmpty(cocktails) && !check.isNull(filter)) {
       this.filter = filter;
       this.doSearch();
-    } else if (cocktails.length == 0) {
+    } else if (check.isEmpty(cocktails)) {
       this.findRandom();
     }
   },
-  components: { CocktailCard }
+  components: { CocktailCard, LoginBottomSheet }
 };
 </script>
 

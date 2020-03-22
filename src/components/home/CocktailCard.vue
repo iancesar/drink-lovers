@@ -29,19 +29,11 @@
         <v-btn class="mt-6" text color="primary" @click="share = !share">Close</v-btn>
       </v-sheet>
     </v-bottom-sheet>
-
-    <v-bottom-sheet v-model="cocktail.sheet" inset>
-      <v-sheet class="text-center" style="border-radius: 20px 20px 0 0px !important;">
-        <LoginBottomSheet></LoginBottomSheet>
-        <v-btn text color="pink" @click="cocktail.sheet = !cocktail.sheet">Cancel</v-btn>
-      </v-sheet>
-    </v-bottom-sheet>
   </div>
 </template>
 
 <script>
 import Share from "@/components/Share";
-import LoginBottomSheet from "@/components/LoginBottomSheet";
 import FirebaseService from "@/services/FirebaseService";
 import CocktailService from "@/services/CocktailService";
 
@@ -63,7 +55,7 @@ export default {
         .then(data => {
           if (!data) {
             this.$store.commit("applyCocktailToBeLoved", cocktail);
-            cocktail.sheet = true;
+            this.$store.commit("changeCocktailSheet", true);
           } else {
             cocktailService.loveIt(cocktail);
           }
@@ -79,7 +71,7 @@ export default {
       cocktail.loved = !cocktail.loved;
     }
   },
-  components: { Share, LoginBottomSheet }
+  components: { Share }
 };
 </script>
 

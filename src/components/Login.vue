@@ -104,6 +104,7 @@ import "firebase/auth";
 import FirebaseService from "@/services/FirebaseService";
 import LoginService from "@/services/LoginService";
 import CocktailService from "@/services/CocktailService";
+import check from "underscore";
 
 let loginService = new LoginService();
 let cocktailService = new CocktailService();
@@ -145,7 +146,7 @@ export default {
           .then(data => {
             this.afterLogin();
             this.loading.signIn = false;
-            this.$router.push("/");
+            this.redirectToHome();
           })
           .catch(err => {
             this.$notify({
@@ -167,7 +168,7 @@ export default {
           .then(data => {
             this.afterLogin();
             this.loading.siginUp = false;
-            this.$router.push("/");
+            this.redirectToHome();
           })
           .catch(err => {
             this.$notify({
@@ -216,7 +217,7 @@ export default {
         .then(result => {
           this.afterLogin();
           this.loading.facebook = false;
-          this.$router.push("/");
+          this.redirectToHome();
         })
         .catch(err => {
           this.loading.facebook = false;
@@ -239,7 +240,7 @@ export default {
         .then(result => {
           this.afterLogin();
           this.loading.google = false;
-          this.$router.push("/");
+          this.redirectToHome();
         })
         .catch(err => {
           this.loading.google = false;
@@ -256,9 +257,16 @@ export default {
     afterLogin() {
       //Check if the user tried add a new cocktail to favorit not logged
       let cocktailToBeLoved = this.$store.state.cocktailToBeLoved;
-      if (cocktailToBeLoved) {
+      if (!check.isEmpty(cocktailToBeLoved)) {
         cocktailService.loveIt(cocktailToBeLoved);
         this.$store.commit("applyCocktailToBeLoved", {});
+        this.$store.commit("changeCocktailSheet", false);
+      }
+    },
+    redirectToHome() {
+      let name = this.$route.name;
+      if (check.isEqual(name, "Login")) {
+        this.$router.push("/");
       }
     }
   },

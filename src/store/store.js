@@ -1,5 +1,9 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import check from "underscore";
+import FirebaseService from '@/services/FirebaseService'
+
+let firebaseService = new FirebaseService();
 
 Vue.use(Vuex);
 
@@ -9,7 +13,8 @@ export default new Vuex.Store({
         cocktails: [],
         cocktail: {},
         sideBar: false,
-        cocktailToBeLoved: {}
+        cocktailToBeLoved: {},
+        cocktailSheet: false,
     },
     mutations: {
         applyFilter(state, payload) {
@@ -27,5 +32,22 @@ export default new Vuex.Store({
         applyCocktailToBeLoved(state, payload) {
             state.cocktailToBeLoved = payload;
         },
+        changeCocktailSheet(state, payload) {
+            state.cocktailSheet = payload
+        }
+    },
+    getters: {
+        isLogged: async () => {
+            return firebaseService.getCurrentUser()
+                .then(data => {
+                    if (check.isNull(data)) {
+                        return false;
+                    } else {
+                        return true
+                    }
+                }).catch(err => {
+                    return false;
+                })
+        }
     }
 });
