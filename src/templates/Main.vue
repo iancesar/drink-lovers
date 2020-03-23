@@ -56,7 +56,7 @@
             <v-list-item-title>Sign in</v-list-item-title>
           </v-list-item>
           
-          <v-list-item to="/login">
+          <v-list-item href="https://github.com/iancesar/cocktails">
             <v-list-item-icon>
               <v-icon color="pink">fab fa-github</v-icon>
             </v-list-item-icon>
