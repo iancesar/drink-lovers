@@ -1,10 +1,10 @@
 <template>
   <v-container>
     <v-row no-gutters class="mt-10">
-      <v-col sm="12" md="6" class="d-flex align-stretch">
+      <v-col class="d-flex justify-center align-stretch">
         <v-img :src="cocktail.img" />
       </v-col>
-      <v-col sm="12" md="6" class="d-flex align-stretch">
+      <v-col class="d-flex justify-center align-stretch">
         <v-card tile>
           <v-card-text>
             <div class="d-flex justify-center display-1 font-weight-light mb-5">{{cocktail.name}}</div>
@@ -104,7 +104,7 @@ export default {
         .then(async response => {
           let element = response.data.drinks[0];
           let cocktail = new Cocktail().convert(element);
-          
+
           let favoriteIds = await cocktailService.getFavoriteIds();
           if (favoriteIds.includes(cocktail.id)) {
             cocktail.loved = true;

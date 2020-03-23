@@ -40,6 +40,7 @@ export default new Vuex.Store({
             state.favorites = payload
         },
         pushFavorites(state, payload) {
+            payload.loved = true
             state.favorites.push(payload)
         },
         removeFavorites(state, payload) {

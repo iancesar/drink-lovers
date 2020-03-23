@@ -28,7 +28,7 @@
         <v-divider class="mx-2 mt-2"></v-divider>
 
         <v-list nav dense flat class="mt-2">
-          <v-list-item to="/" v-show="isLogged">
+          <v-list-item to="/">
             <v-list-item-icon>
               <v-icon color="pink">mdi-glass-cocktail</v-icon>
             </v-list-item-icon>

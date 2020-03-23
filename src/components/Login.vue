@@ -262,6 +262,7 @@ export default {
         this.$store.commit("applyCocktailToBeLoved", {});
         this.$store.commit("changeCocktailSheet", false);
       }
+      this.$store.commit("applyIsLoged", true);
     },
     redirectToHome() {
       let name = this.$route.name;
