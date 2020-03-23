@@ -55,8 +55,16 @@
             </v-list-item-icon>
             <v-list-item-title>Sign in</v-list-item-title>
           </v-list-item>
+          
+          <v-list-item to="/login">
+            <v-list-item-icon>
+              <v-icon color="pink">fab fa-github</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>Github</v-list-item-title>
+          </v-list-item>
         </v-list>
       </v-card>
+
     </v-navigation-drawer>
     <router-view />
   </v-app>
