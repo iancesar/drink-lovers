@@ -32,10 +32,10 @@
             <v-list-item-icon>
               <v-icon color="pink">mdi-glass-cocktail</v-icon>
             </v-list-item-icon>
-            <v-list-item-title>Profile</v-list-item-title>
+            <v-list-item-title>Cocktails</v-list-item-title>
           </v-list-item>
 
-          <v-list-item v-show="isLogged">
+          <v-list-item v-show="isLogged" to="/favorites/drinks">
             <v-list-item-icon>
               <v-icon color="pink">mdi-heart</v-icon>
             </v-list-item-icon>
@@ -49,13 +49,12 @@
             <v-list-item-title>Sign out</v-list-item-title>
           </v-list-item>
 
-          <v-list-item v-show="!isLogged">
+          <v-list-item v-show="!isLogged" to="/login">
             <v-list-item-icon>
               <v-icon color="pink">mdi-login-variant</v-icon>
             </v-list-item-icon>
             <v-list-item-title>Sign in</v-list-item-title>
           </v-list-item>
-          aaa{{isLogged}}
         </v-list>
       </v-card>
     </v-navigation-drawer>
@@ -65,18 +64,21 @@
 
 <script>
 import LoginService from "@/services/LoginService";
+import FirebaseService from "@/services/FirebaseService";
+import check from "underscore";
+
+let firebaseService = new FirebaseService();
 
 let loginService = new LoginService();
 
 export default {
   name: "Main",
-  data: (logged = false) => ({ drawer: false }),
+  data: () => ({
+    drawer: false
+  }),
   computed: {
-    async isLogged() {
-      let a = await this.$store.getters.isLogged;
-      console.log('a', a);
-      
-      return a;
+    isLogged() {
+      return this.$store.state.isLogged;
     }
   },
   methods: {
@@ -85,11 +87,22 @@ export default {
     },
     signOut() {
       loginService.signOut();
+      this.$store.commit("applyIsLoged", false);
     }
   },
-  async mounted() {
-    this.logged = await this.$store.getters.isLogged;
-    console.log(this.logged);
+  mounted() {
+    firebaseService
+      .getCurrentUser()
+      .then(data => {
+        if (!check.isNull(data)) {
+          this.$store.commit("applyIsLoged", true);
+        } else {
+          this.$store.commit("applyIsLoged", false);
+        }
+      })
+      .catch(err => {
+        this.$store.commit("applyIsLoged", false);
+      });
   }
 };
 </script>

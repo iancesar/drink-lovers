@@ -4,6 +4,7 @@ import Main from '@/templates/Main'
 import Home from '../views/Home.vue'
 import Login from '../views/Login.vue'
 import DrinkInfo from '../views/DrinkInfo.vue'
+import Favorites from '@/views/Favorites.vue'
 
 Vue.use(VueRouter)
 
@@ -32,6 +33,10 @@ const routes = [
       {
         path: '/drink/:id',
         component: DrinkInfo
+      },
+      {
+        path: '/favorites/drinks',
+        component: Favorites
       }
     ]
   }

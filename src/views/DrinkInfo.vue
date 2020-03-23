@@ -50,8 +50,6 @@
         <v-btn class="mt-6" text color="primary" @click="share = !share">Close</v-btn>
       </v-sheet>
     </v-bottom-sheet>
-
-    <LoginBottomSheet :sheet="sheet"></LoginBottomSheet>
   </v-container>
 </template>
 
@@ -60,10 +58,15 @@ import Cocktail from "@/models/Cocktail";
 import Share from "@/components/Share";
 import LoginBottomSheet from "@/components/LoginBottomSheet";
 import check from "underscore";
+import FirebaseService from "@/services/FirebaseService";
+import CocktailService from "@/services/CocktailService";
+
+let firebaseService = new FirebaseService();
+let cocktailService = new CocktailService();
 
 export default {
   name: "DrinkInfo",
-  data: () => ({ share: false, sheet: false }),
+  data: () => ({ share: false }),
   computed: {
     cocktail() {
       return this.$store.state.cocktail;
@@ -71,10 +74,25 @@ export default {
   },
   methods: {
     loveIt(cocktail) {
-      console.log('oi');
-      
-      cocktail.loved = true;
-      this.sheet = true
+      firebaseService
+        .getCurrentUser()
+        .then(data => {
+          if (!data) {
+            this.$store.commit("applyCocktailToBeLoved", cocktail);
+            this.$store.commit("changeCocktailSheet", true);
+          } else {
+            cocktailService.loveIt(cocktail);
+          }
+        })
+        .catch(err => {
+          this.$notify({
+            group: "message",
+            type: "warn",
+            text: err.message
+          });
+        });
+
+      cocktail.loved = !cocktail.loved;
     }
   },
   mounted() {
@@ -83,9 +101,14 @@ export default {
     if (check.isUndefined(this.cocktail.id) && !check.isNull(id)) {
       this.$axios
         .get("https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=" + id)
-        .then(response => {
+        .then(async response => {
           let element = response.data.drinks[0];
           let cocktail = new Cocktail().convert(element);
+          
+          let favoriteIds = await cocktailService.getFavoriteIds();
+          if (favoriteIds.includes(cocktail.id)) {
+            cocktail.loved = true;
+          }
 
           this.$store.commit("applyCocktail", cocktail);
         });

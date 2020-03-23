@@ -1,9 +1,5 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import check from "underscore";
-import FirebaseService from '@/services/FirebaseService'
-
-let firebaseService = new FirebaseService();
 
 Vue.use(Vuex);
 
@@ -15,6 +11,8 @@ export default new Vuex.Store({
         sideBar: false,
         cocktailToBeLoved: {},
         cocktailSheet: false,
+        isLogged: false,
+        favorites: []
     },
     mutations: {
         applyFilter(state, payload) {
@@ -34,20 +32,36 @@ export default new Vuex.Store({
         },
         changeCocktailSheet(state, payload) {
             state.cocktailSheet = payload
+        },
+        applyIsLoged(state, payload) {
+            state.isLogged = payload
+        },
+        applyFavorites(state, payload) {
+            state.favorites = payload
+        },
+        pushFavorites(state, payload) {
+            state.favorites.push(payload)
+        },
+        removeFavorites(state, payload) {
+            state.favorites = state.favorites.filter(function (obj) {
+                return obj.id !== payload.id;
+            });
+
+            // state.favorites.push(payload)
         }
     },
     getters: {
-        isLogged: async () => {
-            return firebaseService.getCurrentUser()
-                .then(data => {
-                    if (check.isNull(data)) {
-                        return false;
-                    } else {
-                        return true
-                    }
-                }).catch(err => {
-                    return false;
-                })
-        }
+        // isLogged: async () => {
+        //     firebaseService.getCurrentUser()
+        //         .then(data => {
+        //             if (check.isNull(data)) {
+        //                 return false;
+        //             } else {
+        //                 return true
+        //             }
+        //         }).catch(err => {
+        //             return false;
+        //         })
+        // }
     }
 });

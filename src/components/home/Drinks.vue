@@ -54,7 +54,10 @@
 import Cocktail from "@/models/Cocktail";
 import CocktailCard from "./CocktailCard";
 import LoginBottomSheet from "@/components/LoginBottomSheet";
+import CocktailService from "@/services/CocktailService";
 import check from "underscore";
+
+let cocktailService = new CocktailService();
 
 export default {
   name: "Drinks",
@@ -86,11 +89,14 @@ export default {
           "https://www.thecocktaildb.com/api/json/v1/1/search.php?s=" +
             this.filter
         )
-        .then(result => {
+        .then(async result => {
           if (result.data.drinks != undefined) {
+            let favoriteIds = await cocktailService.getFavoriteIds();
             result.data.drinks.forEach(element => {
               let cocktail = new Cocktail().convert(element);
-
+              if (favoriteIds.includes(cocktail.id)) {
+                cocktail.loved = true;
+              }
               cocktails.push(cocktail);
               this.$store.commit("applyCocktails", cocktails);
             });
@@ -137,11 +143,15 @@ export default {
       }
     }
   },
-  mounted() {
+  async mounted() {
     let cocktails = this.$store.state.cocktails;
     let filter = this.$route.params.search;
 
-    if (check.isEmpty(cocktails) && !check.isNull(filter)) {
+    if (
+      check.isEmpty(cocktails) &&
+      !check.isUndefined(filter) &&
+      !check.isNull(filter)
+    ) {
       this.filter = filter;
       this.doSearch();
     } else if (check.isEmpty(cocktails)) {
